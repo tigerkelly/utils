@@ -1,0 +1,16 @@
+
+This directory contains a library called libini.a
+See src/libini.txt file for more info.
+
+This static library allows the programmer to create and/or read .ini type files.
+
+An ini file looks like:
+
+[Section 1]
+    key1 = value1
+    key2 = value2
+
+[Section 2]
+    key1 = value1
+    key2 = value1
+    key3 = value3

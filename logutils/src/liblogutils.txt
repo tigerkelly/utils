@@ -1,0 +1,111 @@
+
+This doc describes the liblogutils.a library.
+This library contains helper functions for the UNIX logging system software.
+
+Example source for each of the functions is at the bottom of this file.
+
+/*
+ * This function logOpen opens the UINX system logging.
+ *
+ *   prgName = Program name to log messages with, if NULL then use program name.
+ *   stderrFlag = if 1 then send all messages to stderr also.
+ *
+ *   returns void
+ */
+void logOpen(char *prgName, int stderrFlag)
+
+/*
+ * This function logClose closes the logging system.
+ *
+ * returns void
+ */
+void logClose()
+
+/*
+ * This function logInfo logs message to system log file as a Informational message.
+ *
+ *   fmt = String or string with %s or %d like syntax.
+ *   ... = variable number of arguments for fmt above if needed.
+ *
+ *   return void
+ */
+void logInfo(char *fmt, ...)
+
+/*
+ * This function logErr logs message to system log file as a Error message.
+ *
+ *   fmt = String or string with %s or %d like syntax.
+ *   ... = variable number of arguments for fmt above if needed.
+ *
+ *   return void
+ */
+void logErr(char *fmt, ...)
+
+/*
+ * This function logDebug logs message to system log file as a Debug message.
+ *
+ *   fmt = String or string with %s or %d like syntax.
+ *   ... = variable number of arguments for fmt above if needed.
+ *
+ *   return void
+ */
+void logDebug(char *fmt, ...)
+
+/*
+ * This function logNotice logs message to system log file as a Notice message.
+ *
+ *   fmt = String or string with %s or %d like syntax.
+ *   ... = variable number of arguments for fmt above if needed.
+ *
+ *   return void
+ */
+void logNotice(char *fmt, ...)
+
+/*
+ * This function logWarn logs message to system log file as a Warning message.
+ *
+ *   fmt = String or string with %s or %d like syntax.
+ *   ... = variable number of arguments for fmt above if needed.
+ *
+ *   return void
+ */
+void logWarn(char *fmt, ...)
+
+/* ***********************************************************************************
+ * ***********************************************************************************
+ * Examples code for each function.
+ * ***********************************************************************************
+ * ***********************************************************************************/
+ 
+ /* This code MUST be compiled with the compiler switch -std=gnu99 or -std=c99 */
+ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "logutils.h"
+
+int main(void) {
+
+	printf("--Open logging system.\n");
+
+	logOpen("Kelly's Log", 0);
+
+	printf("--Write INFO type message to logging system.\n");
+	logInfo("This is a %s message.", "INFO");
+	printf("--Write DEBUG type message to logging system.\n");
+	logDebug("This is a %s message.", "DEBUG");
+	printf("--Write WARNING type message to logging system.\n");
+	logWarn("This is a %s message.", "WARNING");
+	printf("--Write ERROR type message to logging system.\n");
+	logErr("This is a %s message.", "ERROR");
+	printf("--Write NOTICE type message to logging system.\n");
+	logNotice("This is a %s message.", "NOTICE");
+
+	printf("--Closing logging system.\n");
+	printf("--Messages will show up in the /var/log/messages file.\n");
+	logClose();
+
+	printf("\n--Done...\n");
+	return EXIT_SUCCESS;
+}

@@ -1,0 +1,6 @@
+
+This doc describes the libmmaputils.a library.
+
+Example source for each of the functions is at the bottom of this file.
+
+

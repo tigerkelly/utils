@@ -1,0 +1,380 @@
+
+This doc describes the libini.a library.
+The libini.a library is used to manage .ini type files, as an example.
+[Section 1]
+  key1 = value1
+  key2 = value2
+[Section 2]
+  key3 = value3
+  key4 = value4
+
+The text within the [] are called sections and the 'key1-4 = value1-4' are called the key/value pairs.
+This give you a unique key of Section/Key to group values by.
+
+To compile the source you need to use the compile switch -std=gnu99 or equivalent, might be c99 for your compiler.
+The -std=gnu99 allows variables to be define close to were they are used. like
+   for (int i = 0; i < 10; i++); 
+   
+Example source is at the bottom of this file.
+
+/*
+ * Initialize the sizes.
+ * This function allocates the memory needed based on the values passed in.
+ * This must be call before all other functions.
+ *
+ *   maxCount = max number of ini that can be created, if <= 0 then use MAX_INI_FILES(16).
+ *   maxSect = max number of sections per ini, if <= 0 the use MAX_SECTIONS(32).
+ *   maxKey = max number of keys per section, if <= 0 then use MAX_KEYS(16).
+ *
+ *   returns void;
+ */
+void iniInit(int maxCount, int maxSec, int maxKey)
+
+/*
+ * Create a new IniFile.
+ * This function finds an empty iniFiles slot.
+ *   filename = Path to ini type file. If NULL then creates an empty IniFile else fills IniFile from file.
+ *
+ *   returns -1 if iniInit() had not been called first.
+ *           -2 no empty IniFile array slot.
+ *           iniIdx, the offset in the iniFiles array;
+ */
+int iniCreate(char *filename)
+
+/*
+ * Adds a new Section if their is a free slot.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = Name of section to create if it does not already exist.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           -2 if section name is to long.
+ *           -3 no free slots found in section array. call iniIcreateSectionSize().
+ *           0 if successful.
+ */
+int iniAddSection(int iniIdx, char *secName)
+
+/*
+ * Check to see if section exists.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = Sectin name to look for.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           1 if section already exists.
+ *           0 if section does not exist.
+ */
+int iniSectionExists(int iniIdx, char *secName)
+
+/*
+ * Get pointer to IniFile array.
+ *
+ *   returns IniFile *
+ */
+IniFile *iniGetIniFiles()
+
+/*
+ * Get pointer to Section array.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *
+ *   returns Section *
+ */
+Section *iniGetSectionNames(int iniIdx)
+
+/*
+ * Get pointer to KV array in the section found.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name to look for.
+ *
+ *   returns KV *
+ */
+KV *iniGetSectionKeys(int iniIdx, char *secName)
+
+/*
+ * Returns number of max ini currently allowed.
+ *
+ * returns max ini.
+ */
+int iniGetFileMax()
+
+/*
+ * Returns number of max sections currently allowed.  Use iniIncreateSetionSize() to change.
+ *
+ * returns max sections.
+ */
+int iniGetSectionMax()
+
+/*
+ * Returns number of max keys currently allowed.  Use iniIncreateKeySize() to change.
+ *
+ * returns max keys.
+ */
+int iniGetKeyMax()
+
+/*
+ * Print to stdout the IniFile structure.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success.
+ */
+int iniPrint(int iniIdx)
+
+/*
+ * Print to stdout a single section.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success.
+ */
+int iniPrintSection(int iniIdx, char *secName)
+
+/*
+ * Print to stdout a single key/value pair.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name.
+ *   key = key name to print.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success.
+ */
+int iniPrintKeyValue(int iniIdx, char *secName, char *key)
+
+/*
+ * Returns a pointer to the value of a key/value pair or NULL if not found.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name.
+ *   key = key name to print.
+ *
+ *   returns null if iniIdx is out of range or key is not found.
+ *           pointer to value on success.
+ */
+char *iniGetValue(int iniIdx, char *secName, char *key)
+
+/*
+ * Remove a section fomr the IniFile
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name to remove.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success.
+ */
+int iniRemoveSection(int iniIdx, char *secName)
+
+/*
+ * Remove key/value pair from a section
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name to remove.
+ *   key = key name to remove.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success.
+ */
+int iniRemoveKey(int iniIdx, char *secName, char *key)
+
+/*
+ * Free up a INiFile slot.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           0 on success
+ */
+int iniFree(int iniIdx)
+
+/*
+ * Walks the section array calling the function provided.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   funcPtr = function pointer to be called for each section in use.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *            count, number of sections in use.
+ */
+int iniWalkSections(int iniIdx, void (*funcPtr)(int iniIdx, char *secName))
+
+/*
+ * Walks the keys array for the section name given, calling the function provided.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   funcPtr = function pointer to be called for each section in use.
+ *             Calls this function pointer with iniIdx, secName and keyName
+ *
+ *   returns -1 if iniIdx is out of range.
+ *            count, number of keys in use.
+ */
+int iniWalkSectionKeys(int iniIdx, char *secName, void (*funcPtr)(int iniIdx, char *secName, char *key))
+
+/*
+ * Adds a key/value pair to a section if a key slot is available.  Section must already exist.
+ * If the key already exists then the value is replaced.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   secName = section name to look for.
+ *   key = key name to be added.
+ *   value = value to assign to key.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           -2 if key name length too long.
+ *           -3 if value length is too long.
+ *           -4 no free slot found for key/value pair.  Call iniIncreaseKeySize().
+ *           0 on success
+ */
+int iniAddKeyValue(int iniIdx, char *secName, char *key, char *value)
+
+/*
+ * Write the IniFile to the filename given.
+ *
+ *   iniIdx = iniIdx = index of IniFile in inifiles array, returned from the iniCreate().
+ *   filename = If NULL then use ini->filename, which overwrites existing file.
+ *              If not NULL then create a new file using past in filename.
+ *              if both filename and ini->filename are NULL the do nothing.
+ *
+ *   returns -1 if iniIdx is out of range.
+ *           -2 if both filename and ini->filename are NULL
+ *           -3 if could not fopen file.
+ *           0 on success
+ */
+int iniWrite(int iniIdx, char *filename)
+
+/*
+ * Increase the number of sections allowed.
+ * This effects all IniFiles.
+ *
+ *   maxSec = new max section size.
+ *
+ *   return -1 if new section size is less than or equal to current size;
+ *          0 on success
+ */
+int iniIncreaseSectionSize(int maxSec)
+
+/*
+ * Increase the number of keys per section allowed.
+ * This effects all IniFiles and all sections.
+ *
+ *   maxKeySize = new max key size.
+ *
+ *   return -1 if new key size is less than or equal to current size;
+ *          0 on success
+ */
+int iniIncreaseKeySize(int maxKeySize)
+
+/************************************* Example source ****************************/
+#include <stdio.h>
+#include "ini.h"
+
+#define SECTION_COUNT	16
+#define KEY_COUNT		16
+
+void sectionCallback(int iniIdx, char *secName);
+void keyCallback(int iniIdx, char *secName, char *key);
+
+int main(int argc, char * argv[]) {
+
+	printf("--Init ini with section count = %d and key count = %d\n", SECTION_COUNT, KEY_COUNT);
+	iniInit(100, SECTION_COUNT, KEY_COUNT);
+	printf("--Create new ini from file.\n");
+	int iniIdx = iniCreate("NKXVisual.ini");
+
+	printf("--Print ini file.\n");
+	iniPrint(iniIdx);
+
+	char *ipAddr = iniGetValue(iniIdx, "DB", "ipaddr");
+	char *port = iniGetValue(iniIdx, "DB", "port");
+
+	printf("\n--Print DB:ipaddr:port\nipAddr: %s port: %s\n\n--Remove Section DB\n", ipAddr, port);
+
+	iniRemoveSection(iniIdx, "DB");
+
+	iniPrint(iniIdx);
+
+	printf("\n--Remove Grid Node:port\n");
+	iniRemoveKey(iniIdx, "Grid Node", "port");
+
+	iniPrint(iniIdx);
+
+	printf("\n--Add Grid Node:port 1111\n");
+	iniAddKeyValue(iniIdx, "Grid Node", "port", "1111");
+
+	printf("\n");
+	iniPrint(iniIdx);
+
+	printf("\n--Write to new file. NKX1.ini");
+	iniWrite(iniIdx, "NKX1.ini");
+
+	printf("\n--Free the ini slot.\n");
+	iniFree(iniIdx);
+	printf("--Init ini with section count = %d and key count = %d\n", 5, 2);
+	iniInit(100, 5, 2);
+	printf("--Create new blank ini\n");
+	iniIdx = iniCreate(NULL);
+
+	printf("\nAdd Section 'Kelly'\n");
+	iniAddSection(iniIdx, "Kelly");
+
+	printf("--Add two keys.\n");
+	iniAddKeyValue(iniIdx, "Kelly", "key1", "value1");
+	iniAddKeyValue(iniIdx, "Kelly", "key2", "value2");
+
+	printf("\n--Print ini\n");
+	iniPrint(iniIdx);
+
+	printf("\n--Resize key size from 2 to 5.\n");
+	iniIncreaseKeySize(5);
+
+	printf("\n--Add three more keys to 'Kelly'\n");
+	iniAddKeyValue(iniIdx, "Kelly", "key3", "value3");
+	iniAddKeyValue(iniIdx, "Kelly", "key4", "value4");
+	iniAddKeyValue(iniIdx, "Kelly", "key5", "value5");
+
+	printf("\n--Print ini.\n");
+	iniPrint(iniIdx);
+
+	printf("\n--Print Sections\n");
+	Section *sp = iniGetSectionNames(iniIdx);
+	int maxSec = iniGetSectionMax();
+	for (int i = 0; i < maxSec; i++, sp++) {
+		if (sp->inUse == 1)
+			printf("S: %s\n", sp->secName);
+	}
+
+	printf("\n--Print Keys and Values\n");
+	KV *kp = iniGetSectionKeys(iniIdx, "Kelly");
+	int maxKeys = iniGetKeyMax();
+	for (int i = 0; i < maxKeys; i++, kp++) {
+		if (kp->inUse == 1)
+			printf("K:  %s  V: %s\n", kp->key, iniGetValue(iniIdx, "Kelly", kp->key));
+	}
+
+	printf("\n--Print ini files.\n");
+	IniFile *ifp = iniGetIniFiles();
+	int maxFiles = iniGetFileMax();
+	for (int i = 0; i < maxFiles; i++, ifp++) {
+		if (ifp->inUse == 1)
+			printf("Idx: %d File: %s\n", i, ifp->filename);
+	}
+
+	printf("\n--Walk Sections\n");
+	iniWalkSections(iniIdx, sectionCallback);
+
+	printf("\n--Walk Keys\n");
+	iniWalkSectionKeys(iniIdx, "Kelly", keyCallback);
+
+	return 0;
+}
+
+void sectionCallback(int iniIdx, char *secName) {
+	printf("%s\n", secName);
+}
+
+void keyCallback(int iniIdx, char *secName, char *key) {
+	printf("Section: %s  Key: %s  Value: %s\n", secName, key, iniGetValue(iniIdx, secName, key));
+}

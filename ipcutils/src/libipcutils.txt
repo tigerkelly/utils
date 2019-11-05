@@ -1,0 +1,369 @@
+
+This doc describes the libipcutils.a library.
+This library contains helper functions for the IPC system software.
+
+Example source for each of the functions is at the bottom of this file.
+
+/*
+ * This function memInit attaches or create the master memory segment.
+ * This segment keeps track of all segments created through this library.
+ *
+ * returns  0 on success.
+ *         -1 on failure.
+ */
+int memInit()
+
+/*
+ * This function memCreate creates or attaches to existing segment.
+ *
+ *   segName = Segment name to attach to or create.
+ *   memSize = Size of segment to create if is does not exist.
+ *
+ *   returns -1 on failure
+ *           0 if segment already exists
+ *           1 if segment was created.
+ */
+int memCreate(char *segName, long memSize)
+
+/*
+ * This function memGetNum returns a semaphore sets semId.
+ *
+ *   semName = Semaphore set name to get pointer to.
+ *
+ *   returns -1 on error or not found
+ *           else master memory array offset.
+ */
+int semGetNum(char *semName)
+
+/*
+ * This function memAttach returns a memory pointer to segment.
+ *
+ *   segName = Segment name to get pointer to.
+ *
+ *   returns NULL on error
+ *           else pointer to shared memory segment.
+ */
+void *memAttach(char *segName)
+
+/*
+ * This function memDetach detaches for shared memory segment.
+ * Once detached you can not longer use the shared memory segment.
+ *
+ *   segName = Segment name to detach from.
+ *
+ *   returns void
+ */
+void memDetach(char *segName)
+
+/*
+ * This function memWrite is used to update the shared memory.
+ * This uses a semaphore to keep processes from updating at the same time.
+ *
+ *   segName = Shared memory name
+ *   data = Data to write to shared memory
+ *   offset = Offset within the shared memory to write the data.
+ *   length = Length of the data to write.
+ *
+ *   return -1 on error
+ *          0 on success
+ */
+int memWrite(char *segName, char *data, int offset, int length)
+
+/*
+ * This function memRead is used to read data from shared memory.
+ * This uses a semaphore to keep processes from updating at the same time.
+ *
+ *   segName = Shared memory name
+ *   data = place to return data
+ *   offset = Offset within the shared memory to read the data.
+ *   length = Length of the data to read.
+ *
+ *   return -1 on error
+ *          0 on success
+ */
+int memRead(char *segName, char *data, int offset, int length)
+
+/*
+ * This function memFastWrite is used to update the shared memory.
+ * This uses a semaphore to keep processes from updating at the same time.
+ *
+ *   segName = Shared memory name
+ *   data = Data to write to shared memory
+ *   offset = Offset within the shared memory to write the data.
+ *   length = Length of the data to write.
+ *
+ *   return -1 on error
+ *          0 on success
+ */
+int memFastWrite(int memNum, char *data, int offset, int length)
+
+/*
+ * This function memFastRead is used to read data from shared memory.
+ * This uses a semaphore to keep processes from updating at the same time.
+ *
+ *   segName = Shared memory name
+ *   data = place to return data
+ *   offset = Offset within the shared memory to read the data.
+ *   length = Length of the data to read.
+ *
+ *   return -1 on error
+ *          0 on success
+ */
+int memFastRead(int memNum, char *data, int offset, int length)
+
+
+
+/*
+ * This function semInit attaches or create the semaphore master memory segment.
+ * This segment keeps track of all semaphores created through this library.
+ *
+ * returns  0 on success.
+ *         -1 on failure.
+ */
+int semInit()
+
+/*
+ * This function semCreate creates the semaphore set if needed.
+ *
+ *   segName = Semaphore set name to create.
+ *   semSize = Number of semaphores in the semaphore set to create.
+ *
+ *   returns -1 on failure
+ *           0 if semaphore set already exists
+ *           1 if semaphore set was created.
+ */
+int semCreate(char *semName, int semSize)
+
+/*
+ * This function semGetId returns a semaphore sets semId.
+ *
+ *   semName = Semaphore set name to get pointer to.
+ *
+ *   returns -1 on error or not found
+ *           else semId.
+ */
+int semGetId(char *semName)
+
+/*
+ * This function semGetId returns a semaphore sets semId.
+ *
+ *   semName = Semaphore set name to get pointer to.
+ *
+ *   returns -1 on error or not found
+ *           else master semaphore array offset.
+ */
+int semGetNum(char *semName)
+
+/*
+ * This function semLock will try to lock a semaphore.
+ * This function only allows you to lock one semaphore in the set at a time.
+ * You will have to use semGetId and handle multiple operations on multiple semaphores at the same time.
+ *
+ * This will block until operation can be done.
+ *
+ *   semName = Name of the semaphore set to use.
+ *   semNum = number of the semaphore in the semaphore set to lock.
+ *
+ *   returns -1 on failure.
+ *           0 on success
+ */
+int semLock(char *semName, int semNum)
+
+/*
+ * This function semUnlock will try to unlock a semaphore.
+ * This function only allows you to unlock one semaphore in the set at a time.
+ * You will have to use semGetId and handle multiple operations on multiple semaphores at the same time.
+ *
+ * This will block until operation can be done.
+ *
+ *   semName = Name of the semaphore set to use.
+ *   semNum = number of the semaphore in the semaphore set to unlock.
+ *
+ *   returns -1 on failure.
+ *           0 on success
+ */
+int semUnlock(char *semName, int semNum)
+
+/*
+ * This function semTimedLock will try to lock a semaphore.
+ * This function only allows you to lock one semaphore in the set at a time.
+ * You will have to use semGetId and handle multiple operations on multiple semaphores at the same time.
+ *
+ * This will block until operation can be done or timeout in seconds has been reached.
+ *
+ *   semName = Name of the semaphore set to use.
+ *   semNum = number of the semaphore in the semaphore set to lock.
+ *
+ *   returns -1 on failure.
+ *           0 on success
+ */
+int semTimedLock(char *semName, int semNum, int timeout)	// use compiler switch -D_GNU_SOURCE
+
+/*
+ * This function semTimedUnlock will try to unlock a semaphore.
+ * This function only allows you to unlock one semaphore in the set at a time.
+ * You will have to use semGetId and handle multiple operations on multiple semaphores at the same time.
+ *
+ * This will block until operation can be done or timeout in seconds has been reached.
+ *
+ *   semName = Name of the semaphore set to use.
+ *   semNum = number of the semaphore in the semaphore set to unlock.
+ *
+ *   returns -1 on failure.
+ *           0 on success
+ */
+int semTimedUnlock(char *semName, int semNum, int timeout)	// use compiler switch -D_GNU_SOURCE
+
+/*
+ * This function msgInit attaches or create the master memory segment.
+ * This segment keeps track of all segments created through this library.
+ *
+ * returns  0 on success.
+ *         -1 on failure.
+ */
+int msgInit()
+
+/*
+ * This function msgCreate creates or attaches to existing message queue.
+ *
+ *   msgName = Segment name to attach to or create.
+ *
+ *   returns -1 on failure
+ *           0 if segment already exists
+ *           1 if segment was created.
+ */
+int msgCreate(char *msgName)
+
+/*
+ * This function msgGetId returns a message queue msgId.
+ * Use this function to get the msgId so that you can use msgsnd and msgrcv yourself.
+ *
+ *   msgName = Message queue name to get.
+ *
+ *   returns -1 on error or not found
+ *           else semId.
+ */
+int msgGetId(char *msgName)
+
+/*
+ * This function msgSend places a message on the queue.
+ *
+ *   msgName = Message queue name.
+ *   msg = Message to place on queue.
+ *
+ *   returns -1 on error
+ *           0 on success
+ */
+int msgSend(char *msgName, char *msg)
+
+/*
+ * This function msgNumSend places a message on the queue.
+ *
+ *   msgName = Message queue name.
+ *   msg = Message to place on queue.
+ *   msgLen = number of bytes form msg to place on message queue.
+ *
+ *   returns -1 on error
+ *           0 on success
+ */
+int msgNumSend(char *msgName, char *msg, int msgLen)
+
+/*
+ * This function msgRecv reads first message on queue without priority.
+ * Read the next message on the queue regardless if type.
+ * 
+ *   msgName = Message queue name.
+ *   buf = Buffer to place message into.
+ *   
+ *   returns -1 on error
+ *           0 if no messages in queue.
+ *           else number of bytes placed into buf.
+ */
+int msgRecv(char *msgName, char *buf)
+
+/*
+ * This function msgRecv reads first message on queue with priority.
+ * If no priority message in queue then returns next message.
+ *
+ *   msgName = Message queue name.
+ *   buf = Buffer to place message into.
+ *   msgPriority = Message type to read.
+ *
+ *   returns -1 on error
+ *            0 no priority or any message found on queue.
+ *            else number of bytes placed into buf.
+ */
+int msgPriorityRecv(char *msgName, char *buf, long msgPriority)
+
+/* ***********************************************************************************
+ * ***********************************************************************************
+ * Examples code for each function.
+ * ***********************************************************************************
+ * ***********************************************************************************/
+ 
+ /* This code MUST be compiled with the compiler switch -std=gnu99 or -std=c99 */
+ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "ipcutils.h"
+
+int main(void) {
+
+	if (memInit() != 0) {
+		printf("memInit failed.\n");
+		return -1;
+	}
+
+	int r =  memCreate("Kelly", (1024 * 16));
+
+	if (r < 0) {
+		printf("Could not create shared memory segment.\n");
+		return -1;
+	} else if (r == 0) {
+		printf("Segment 'Kelly' already exists.\n");
+	} else if (r == 1) {
+		printf("Segment 'Kelly' was created.\n");
+	}
+
+	char *mem = (char *)memAttach("Kelly");
+
+	if (mem == NULL) {
+		printf("Memory attach failed.\n");
+		return -1;
+	}
+
+	char data[100] = "Hello Shared Memory Segment.";
+
+	printf("Write 'Hello Shared memory Segment.' to the shared memory.\n");
+
+	strcpy(mem, data);
+
+	printf("Detach from the 'Kelly' segment.\n");
+	memDetach("Kelly");
+
+	printf("Try to re-attach to 'Kelly' segment.\n");
+	r = memCreate("Kelly", (1024 * 16));
+
+	if (r < 0) {
+		printf("Could not create shared memory segment.\n");
+		return -1;
+	} else if (r == 0) {
+		printf("Segment 'Kelly' already exists.  Good.\n");
+	} else if (r == 1) {
+		printf("Segment 'Kelly' was created.\n");
+	}
+
+	printf("Get shared memory segment pointer.\n");
+
+	char *mem2 = (char *)memAttach("Kelly");
+
+	printf("Print what is in shared memory.\n");
+	printf("  found in shared memory: '%s'\n", mem2);
+
+	memDetach("Kelly");
+	printf("Done...\n");
+
+	return EXIT_SUCCESS;
+}

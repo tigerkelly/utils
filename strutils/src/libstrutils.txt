@@ -1,0 +1,508 @@
+
+This doc describes the libstrutils.a library.
+The libstrutils.a library is a group of functions to parse or modify strings.
+
+Example source for each of the functions is at the bottom of this file.
+
+/*
+ * This function kqparse tokenizes a string based on the characters passed in.
+ * If a string has the following pattern.
+ *     The,end,,,is,"very near".
+ * The above string will return a token count of 4 and the following in the args array.
+ *   args[0] = "The";
+ *   args[1] = "end";
+ *   args[2] = "is";
+ *   args[3] = "\"very near.\"";		// keeps the quotes as part of the returned string.
+ *   args[4] = NULL;
+ *
+ * The quote marks can be either single or double pairs but can not mix them on a token.
+ *
+ *   str = string to be tokenized.  This string is modified.
+ *   chrs = characters to parse string by.
+ *   argz = A pointer to an array of char * pointers. This array will contain the tokens found up to (max_args - 1).
+ *   max_args = max number of pointers in the pointer array argz.
+ *
+ *   returns number of tokens parsed which would be less than max_args.
+ *           The return pointer array is null terminated.
+ */
+int kqparse(char *str, char *chrs, char **argz, int max_argz)
+
+/*
+ * This function qparse tokenizes a string based on the characters passed in.
+ * If a string has the following pattern.
+ *     The,end,,,is,"very near".
+ * The above string will return a token count of 4 and the following in the args array.
+ *   args[0] = "The";
+ *   args[1] = "end";
+ *   args[2] = "is";
+ *   args[3] = "very near.";		// removes the quotes from the string.
+ *   args[4] = NULL;
+ *
+ * The quote marks can be either single or double pairs but can not mix them on a token.
+ *
+ *   str = string to be tokenized.  This string is modified.
+ *   chrs = characters to parse string by.
+ *   argz = A pointer to an array of char * pointers. This array will contain the tokens found up to (max_args - 1).
+ *   max_args = max number of pointers in the pointer array argz.
+ *
+ *   returns number of tokens parsed which would be less than max_args.
+ *           The return pointer array is null terminated.
+ */
+int qparse(char *str, char *chrs, char **argz, int max_argz)
+
+/*
+ * This function parse tokenizes a string based on the characters passed in.
+ * This function skips empty slots.
+ * If a string has the following pattern.
+ *     The,end,,,is,near.
+ * The above string will return a token count of 4 and the following in the args array.
+ *   args[0] = "The";
+ *   args[1] = "end";
+ *   args[2] = "is";
+ *   args[3] = "near.";
+ *   args[4] = NULL;
+ *
+ * This is very similar to qparse but does not look for quote marks
+ *
+ *   str = string to be tokenized.  This string is modified.
+ *   chrs = characters to parse string by.
+ *   argz = A pointer to an array of char * pointers. This array will contain the tokens found up to (max_args - 1).
+ *   max_args = max number of pointers in the pointer array argz.
+ *
+ *   returns number of tokens parsed which would be less than max_args.
+ *           The return pointer array is null terminated.
+ */
+int parse(char *str, char *chrs, char **argz, int max_argz)
+
+/*
+ * This function tokenize will tokenizes a string based on the character passed in.
+ * This can only tokenize things like comma separated values and the like.
+ * If a string has the following pattern.
+ *     The,end,,,is,near.
+ * The above string will return a token count of 6 and the following in the argz array.
+ *   args[0] = "The";
+ *   args[1] = "end";
+ *   args[2] = "";
+ *   args[3] = "";
+ *   args[4] = "is";
+ *   args[5] = "near.";
+ *   args[6] = NULL;
+ *
+ *   str = string to be tokenized.  This string is modified.
+ *   chr = character to parse string by.
+ *   argz = A pointer to an array of char * pointers. This array will contain the tokens found up to (max_args - 1).
+ *   maxLen = max number of pointers in the pointer array argz.
+ *
+ *   returns number of tokens parsed which would be less than max_args.
+ *           The return pointer array is null terminated.
+ */
+int tokenize(char *str, char chr, char **argz, int maxLen)
+
+/*
+ * The trim function removes leading and trailing white spaces characters from the string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after the trim.
+ */
+int trim( char *str )
+
+/*
+ * The trim_head function only trims leading white space characters from the string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after the trim.
+ */
+int trim_head( char *str )
+
+/*
+ * The trim_tail function only trims trailing white space characters from the string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after the trim.
+ */
+int trim_tail( char *str )
+
+/*
+ * This function trim_chr trims character (chr) from the leading and trailing string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after being trimmed.
+ */
+int trim_chr(char *str, char chr)
+
+/*
+ * This function trim_head_chr trims leading character (chr) from string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after being trimmed.
+ */
+int trim_head_chr( char *str, char chr )
+
+/*
+ * This function trim_tail_chr trims trailing character (chr) from string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns 0 if the string is NULL or begins with a '\0' character
+ *           else the number of characters in the string after being trimmed.
+ */
+int trim_tail_chr( char *str, char chr )
+
+/*
+ * The tidy function removes leading and trailing white spaces characters from the string.
+ * This will return a pointer to the first non-whitespace of the string and change all
+ * whitespaces at end of string are changed to NULLs.  Does not use strdup.
+ *
+ *   str = The string to be trimmed and returning tidied string.  This string is modified.
+ *
+ *   returns pointer to new start of string.
+ */
+char *tidy( char *str )
+
+/*
+ * The tidy_head function only trims leading white space characters from the string.
+ *
+ *   str = The string to be trimmed.  This string is NOT modified.
+ *
+ *   returns pointer to first non-whitespace character in string.
+ */
+char *tidy_head( char *str )
+
+/*
+ * The tidy_tail function only trims trailing white space characters from the string.
+ * All whitespaces at end of string are changed to NULLs.
+ *
+ *   str = The string to be trimmed.  This string is modified.
+ *
+ *   returns void
+ */
+void tidy_tail( char *str )
+
+/*
+ * This function tidy_chr trims character (chr) from the leading and trailing string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns pointer to first non-whitespace character
+ */
+char *tidy_chr(char *str, char chr)
+
+/*
+ * This function tidy_head_chr trims leading character (chr) from string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns pointer to fist non-whitespace character.
+ */
+char *tidy_head_chr(char *str, char chr)
+
+/*
+ * This function tidy_tail_chr trims trailing character (chr) from string.
+ *
+ *   str = The string to be trimmed and returning trimmed string.  This string is modified.
+ *   chr = The character to match for trimming.
+ *
+ *   returns void
+ */
+void tidy_tail_chr(char *str, char chr)
+
+/*
+ * This function strEndsWith compares the end of str with endsWith.
+ *
+ *   str = String to compare end with.
+ *   endsWith = String to compare to the end of str
+ *
+ *   return 0 if it does NOT match end.
+ *          1 if it does match end.
+ */
+int strEndsWith(char *str, char *endsWith)
+
+/*
+ * This function strStartsWith compares the end of str with startsWith.
+ *
+ *   str = String to compare beginning with.
+ *   startsWith = String to compare to the beginning of str
+ *
+ *   return 0 if it does NOT match end.
+ *          1 if it does match end.
+ */
+int strStartsWith(char *str, char *startsWith)
+
+*
+ * This function getTimestamp returns a static pointer to a timestamp string with milliseconds.
+ * In the format of HH:MM:SS.ms were HH = hours, MM = minutes, SS = seconds and ms = milliseconds (1-4 digits)
+ *
+ *  return pointer to static string.
+ */
+char *getTimestamp()
+
+/*
+ * This function copyuntil copies from the source string to the destination string
+ * until one of the characters in stopChrs is found or NULL.
+ *
+ *   dest = destination string.
+ *   src = source string.
+ *   stopChrs = list of characters to stop on.
+ *
+ *   returns pointer to dest.
+ */
+char *copyuntil(char *dest, const char *src, char *stopChrs)
+
+
+/* *****************************************************************************************
+ * *****************************************************************************************
+ * The functions below are only called by the other functions in this library but feel free
+ * to use them if you need to.
+ * *****************************************************************************************
+ * *****************************************************************************************/
+
+/*
+ * strqtok - extract successive tokens from a string, allowing quotes
+ *
+ * strqtok works just like strtok (), except that individual tokens may
+ * be surrounded by single or double quotes.
+ *
+ * strqtok considers the string s1 to consist of zero or more text tokens
+ * separated by spans of one or more chars from the separator string s2.
+ * The first call (with s1 specified) returns a pointer to the first
+ * char of the first token, and will have written a null char into s1
+ * immediately following the returned token. If the token was surrounded
+ * by single or double quotes, they are stripped. The function keeps
+ * track of its position in the string between separate calls, so that on
+ * subsequent calls (which must be made with s1 equal to NULL) will work
+ * thru the string s1 until no tokens remain. The separator string s2 may
+ * be differnt from call to call. When no token remains in s1, a NULL
+ * pointer is returned.
+ *
+ * Returns a pointer to the extracted token, or NULL if no more tokens
+ * remain in the string.
+ */
+
+char *strqtok (char *s1, char *s2)
+
+/*
+ * This function kstrqtok will parse a string and keep quoted string together.
+ *
+ *   s1 = string to tokenize.
+ *   s2 = pattern of separator characters.
+ */
+char *kstrqtok (char *s1, char *s2)
+
+/* ***********************************************************************************
+ * ***********************************************************************************
+ * Examples code for each function.
+ * ***********************************************************************************
+ * ***********************************************************************************/
+ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "strutils.h"
+
+/* **************************************************************************
+ * This code must be compiled with the compiler switch -std=gnu99 or -std=c99
+ */
+
+int main(void) {
+
+	char str[] = "The ,end ,is , very near.";
+	char *args[16];
+
+	printf("--Process string using the function parse().\n");
+	printf("--String to parse: '%s'  on commas or spaces\n", str);
+	int n = parse(str, " ,", args, 16);			// array args is always null terminated.
+
+	// The returned array can be parse like so.
+	printf("--Process returned array using a for() loop.\n");
+	printf("  --Notice that the string is parsed on both commas and spaces.\n");
+	for (int i = 0; i < n; i++) {
+		printf("  args[%d] = '%s'\n", i, args[i]);
+	}
+
+	// or parsed like so.
+	printf("--Process returned array using a while() loop.\n");
+	int x = 0;
+	while (args[x]) {
+		printf("  args[%d] = '%s'\n", x, args[x]);
+		x++;
+	}
+
+	char str2[] = "The ,end ,is , 'very near.', \"dear to me\"";
+	char *args2[16];
+
+	printf("\n--Process string using the function kqparse().\n");
+	printf("--String to parse: '%s'  on commas or spaces\n", str);
+	int n2 = kqparse(str2, " ,", args2, 16);			// array args is always null terminated.
+
+	// The returned array can be parse like so.
+	printf("--Process returned array using a for() loop.\n");
+	printf("  --Notice that the string is parsed on both commas and spaces but\n");
+	printf("    the quoted strings are kept together.  And quote marks are also kept.\n");
+	for (int i = 0; i < n2; i++) {
+		printf("  args2[%d] = '%s'\n", i, args2[i]);
+	}
+
+	// or parsed like so.
+	printf("--Process returned array using a while() loop.\n");
+	int x2 = 0;
+	while (args2[x2]) {
+		printf("  args2[%d] = '%s'\n", x2, args2[x2]);
+		x2++;
+	}
+
+	char str3[] = "The ,end ,is , , 'very near.', \"dear to me\"";
+	char *args3[16];
+
+	printf("\n--Process string using the function kqparse().\n");
+	printf("--String to parse: '%s'  on commas or spaces\n", str);
+	int n3 = qparse(str3, " ,", args3, 16);			// array args is always null terminated.
+
+	// The returned array can be parse like so.
+	printf("--Process returned array using a for() loop.\n");
+	printf("  --Notice that the string is parsed on both commas and spaces but\n");
+	printf("    the quoted strings are kept together.  And quote marks are NOT kept.\n");
+	for (int i = 0; i < n3; i++) {
+		printf("  args3[%d] = '%s'\n", i, args3[i]);
+	}
+
+	// or parsed like so.
+	printf("--Process returned array using a while() loop.\n");
+	int x3 = 0;
+	while (args3[x3]) {
+		printf("  args3[%d] = '%s'\n", x3, args3[x3]);
+		x3++;
+	}
+
+	char str4[] = "The,end,is,,,'very near.',\"dear to me\"";
+	char *args4[16];
+
+	printf("\n--Process string using the function kqparse().\n");
+	printf("--String to parse: '%s'  on commas or spaces\n", str);
+	int n4 = tokenize(str4, ',', args4, 16);			// array args is always null terminated.
+
+	// The returned array can be parse like so.
+	printf("--Process returned array using a for() loop.\n");
+	printf("  --Notice that the string is parsed on both commas and spaces but\n");
+	printf("    the quoted strings are kept together.  And quote marks are NOT kept.\n");
+	for (int i = 0; i < n4; i++) {
+		printf("  args4[%d] = '%s'\n", i, args4[i]);
+	}
+
+	printf("--Process returned array using a while() loop.\n");
+	int x4 = 0;
+	while (args4[x4]) {
+		printf("  args4[%d] = '%s'\n", x4, args4[x4]);
+		x4++;
+	}
+
+	char str5[] = " \tString to trim \t ";
+
+	printf("\n--Process string using the function trim().\n");
+	printf("--String to trim leading and trailing white spaces from: '%s'\n", str5);
+	int len = strlen(str5);
+	int n5 = trim(str5);
+	printf("--Starting length of string is %d and after triming %d\n", len, n5);
+	printf("  '%s'\n", str5);
+
+	char str6[] = " \tString to trim \t ";
+	printf("\n--Process string using the function trim_head().\n");
+	printf("--String to trim leading white space from: '%s'\n", str6);
+	int len2 = strlen(str6);
+	int n6 = trim_head(str6);
+	printf("--Starting length of string is %d and after triming %d\n", len2, n6);
+	printf("  '%s'\n", str6);
+
+	char str7[] = " \tString to trim \t ";
+	printf("\n--Process string using the function trim_tail().\n");
+	printf("--String to trim trailing white space from: '%s'\n", str7);
+	int len3 = strlen(str7);
+	int n7 = trim_tail(str7);
+	printf("--Starting length of string is %d and after triming %d\n", len3, n7);
+	printf("  '%s'\n", str7);
+
+	char str8[] = "...String to trim.....";
+	printf("\n--Process string using the function trim_chr().\n");
+	printf("--String to trim trailing white space from: '%s'\n", str8);
+	int len4 = strlen(str8);
+	int n8 = trim_chr(str8, '.');
+	printf("--Starting length of string is %d and after triming %d\n", len4, n8);
+	printf("  '%s'\n", str8);
+
+	char str9[] = "[[String to trim]]";
+	printf("\n--Process string using the function trim_head_chr().\n");
+	printf("--String to trim trailing white space from: '%s'\n", str9);
+	int len5 = strlen(str9);
+	int n9 = trim_head_chr(str9, '[');
+	printf("--Starting length of string is %d and after triming %d\n", len5, n9);
+	printf("  '%s'\n", str9);
+
+	char str10[] = "[[String to trim]]";
+	printf("\n--Process string using the function trim_tail_chr().\n");
+	printf("--String to trim trailing white space from: '%s'\n", str10);
+	int len6 = strlen(str10);
+	int n10 = trim_tail_chr(str10, ']');
+	printf("--Starting length of string is %d and after triming %d\n", len6, n10);
+	printf("  '%s'\n", str10);
+
+	printf("--Does the string 'The cow jumped over the moon.' end with 'the moon.'?\n");
+	if (strEndsWith("The cow jumped over the moon.", "the moon.") == 0)
+		printf("  yes it does.\n");
+
+	printf("--Does the string 'The cow jumped over the moon.' begin with 'The cow j'?\n");
+	if (strStartsWith("The cow jumped over the moon.", "The cow j") == 0)
+		printf("  yes it does.\n");
+
+	printf("--Get current timestamp.\n");
+	printf("  Timestamp %s\n", getTimestamp());
+
+	printf("--Copy source string until character found or NULL.\n");
+
+	char str11[] = "Jack jumped over the candle stick.";
+	printf("----Copy '%s' until 'h' or 'r' is found.\n", str11);
+	char dest[64];
+	copyuntil(dest, str11, "hr");
+	printf("dest: '%s'\n", dest);
+
+    StrParts words[16];
+
+    char *s = ",this,is,,,a,string,to,parse.,";
+
+    int r = split(s, ',', words, 16);
+
+    char str[32];
+    for (int i = 0; i < r; i++) {
+        memset(str, 0, sizeof(str));
+        strncpy(str, words[i].str, words[i].len);
+        printf("'%s' %d\n", str, words[i].len);
+    }
+
+    s = ", this, is, , , a, string, to, parse., ";
+
+    r = splitByStr(s, ", ", words, 16);
+
+    for (int i = 0; i < r; i++) {
+        memset(str, 0, sizeof(str));
+        strncpy(str, words[i].str, words[i].len);
+        printf("'%s' %d\n", str, words[i].len);
+    }
+
+	printf("\n--Done...\n");
+
+	return EXIT_SUCCESS;
+}
