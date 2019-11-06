@@ -4,7 +4,6 @@
  * Description: Helper functions for the RTD Engine.
  *  Created on: Nov 26, 2017
  *      Author: Kelly Wiles
- *   Copyright: Network Kinetix
  */
 
 #include <stddef.h>

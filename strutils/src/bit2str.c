@@ -4,7 +4,6 @@
  * Description:
  *  Created on: Jul 19, 2018
  *      Author: Kelly Wiles
- *   Copyright: Network Kinetix
  */
 
 #include <stdio.h>

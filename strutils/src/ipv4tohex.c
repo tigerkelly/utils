@@ -4,7 +4,6 @@
  * Description: Convert an IPv4 (uint32_t) to hex ASCII string.
  *  Created on: Sep 5, 2017
  *      Author: Kelly Wiles
- *   Copyright: Network Kinetix
  */
 
 #include <stdio.h>

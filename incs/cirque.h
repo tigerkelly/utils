@@ -3,8 +3,7 @@
  *
  * Description:
  *  Created on: Mar 10, 2018
- *      Author: nkx
- *   Copyright: Network Kinetix
+ *      Author: Kelly Wiles
  */
 
 #ifndef INCS_CIRQUE_H_

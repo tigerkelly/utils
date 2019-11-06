@@ -4,7 +4,6 @@
  * Description: Generic FIFO queue.
  *  Created on: Dec 1, 2017
  *      Author: Kelly Wiles
- *   Copyright: Network Kinetix
  */
 
 #ifndef _GQUEUE_H_

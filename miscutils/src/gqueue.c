@@ -4,7 +4,6 @@
  * Description: Generic FIFO like queue.
  *  Created on: July 4, 2019
  *      Author: Kelly Wiles
- *   Copyright: Kelly Wiles
  */
 
 #include <stdlib.h>

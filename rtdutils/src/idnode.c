@@ -4,7 +4,6 @@
  * Description: used to lookup table indexes for RTD Engine.
  *  Created on: Oct. 2, 2017
  *      Author: Kelly Wiles
- *   Copyright: Network Kinetix
  */
 
 #include "rtdutils.h"

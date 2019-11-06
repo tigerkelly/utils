@@ -3,8 +3,7 @@
  *
  * Description:
  *  Created on: Nov 7, 2017
- *      Author: nkx
- *   Copyright: Network Kinetix
+ *      Author: Kelly Wiles
  */
 
 /*

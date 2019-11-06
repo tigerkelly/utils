@@ -3,8 +3,7 @@
  *
  * Description:
  *  Created on: Nov 25, 2017
- *      Author: nkx
- *   Copyright: Network Kinetix
+ *      Author: Kelly Wiles
  */
 
 #ifndef INCS_RTDENGINE_H_
