@@ -15,4 +15,4 @@ To build just type **make** and the libraries will be placed in the **libs** dir
 ### Description of each library.
 
 	- ini - Is a set of functions to support .ini type files.  I use this a lot for storing and retriving configuration data for a program or system.  
-	see file **[libini.txt](https://github.com/tigerkelly/utils/blob/master/ini/src/libini.txt)
+	see file **[libini.txt](https://github.com/tigerkelly/utils/blob/master/ini/src/libini.txt)**
