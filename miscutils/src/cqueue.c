@@ -1,4 +1,23 @@
 /*
+ * Copyright (c) 2016 Richard Kelly Wiles (rkwiles@twc.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  * cqueue.c
  *
  * A circular fifo queue.
@@ -20,6 +39,20 @@
 
 #include "logutils.h"
 #include "miscutils.h"
+
+/* These functions use a ItemType union structure to store information.
+ *
+ * typedef union _items_ {
+ *     unsigned char c;
+ *     unsigned short s;
+ *     unsigned int i;
+ *     unsigned long l;
+ *     char *p;
+ * } ItemType;
+ * What I noarmally do is allocate an array of buffers and use the ItemType.i field
+ * to reference each buffer.  If you only need to store a primative char, short, int, long and pointer
+ * then you do not need to have buffers allocated.
+ */
 
 #define MILLION		1000000L
 #define BILLION		1000000000L
@@ -120,8 +153,6 @@ int cqCreateDynamic(const char *cqName, int arrSize, int growth) {
 
 	int size = arrSize * sizeof(ItemType);
 
-//	Info("size: %d, %d\n", size, (sizeof(CQueue) + size));
-
 	CQueue *cp = (CQueue *)calloc(1, (sizeof(CQueue) + size));
 	if (cp == NULL) {
 		Err("Unable to allocate memory for CQueue structure\n");
@@ -131,12 +162,8 @@ int cqCreateDynamic(const char *cqName, int arrSize, int growth) {
 
 	_cqueues[empty] = cp;
 
-//	Info("%p, %p\n", _cqueues[empty], cp);
-
 	pthread_mutex_init(&cp->cqLock, NULL);
 	pthread_cond_init(&cp->cqCond, NULL);
-//	cp->cqCond = PTHREAD_COND_INITIALIZER;
-//	cp->cqLock = PTHREAD_MUTEX_INITIALIZER;
 
 	if (pthread_mutex_init(&cp->cqLock, NULL) != 0) {
 		Err("Mutex init lock failed.\n");

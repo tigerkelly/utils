@@ -5,7 +5,7 @@ These functions are common functions I use a lot, enjoy.
 
 ### Building utils library.
 
-I have compiled these are several different type of OSes but this has only been tested on Raspberry Pi.
+I have compiled this library on several different types of OSes but this has only been tested on Raspberry Pi.
 
 These are pretty much simple C code that should compile without any issues.
 
@@ -14,7 +14,7 @@ To build just type **make** and the libraries will be placed in the **libs** dir
 
 ### Description of each library.
 
-Each library directory shoudl have a text file that describes the functions calls within the libnrary.
+Each library directory should have a text file that describes the functions calls within the library.
 
 ini - Set of functions to support .ini type files.  I use this a lot for storing and retriving configuration data for a program or system. 
 
@@ -31,7 +31,7 @@ logUtils - Set of functions or helper functions to help with system logging of p
 
 	- logger.c, helper fcuntions for UNIX system logging.
 
-miscUtils - Set deverse set of fucntions to help with many types of tasks.
+miscUtils - A deverse set of fucntions to help with many types of tasks.
 
 	- cqueue.c, circular link list functions, very fast.
 	- crc32.c, to create a 32 bit CRC value for data given.
