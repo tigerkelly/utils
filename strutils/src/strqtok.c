@@ -49,6 +49,13 @@
  * Returns a pointer to the extracted token, or NULL if no more tokens
  * remain in the string.
  */
+/* SPECIAL NOTE: Do not use a const char * like
+ * char *str = "string";
+ * when passing data to qparse, this will cause a core dump at the *s1++ = '\0'; line.
+ * The string array passed in must be allocated by your program and not the compiler.
+ * When you use the above statement in your program the compiler allocates the memory
+ * in a protected area, so you get a SIGSEGV error.
+ */
 
 char *strqtok (char *s1, const char *s2) {
 	static	char	*sp = NULL;	/* keep track of position */
@@ -82,10 +89,10 @@ char *strqtok (char *s1, const char *s2) {
 			s1++;
 	}
 
-	/* terminate token */
+	/* terminate token. */
 
 	if( *s1 )
-		*s1++ = '\0';
+	 	*s1++ = '\0';
 
 	/* save position for next call */
 

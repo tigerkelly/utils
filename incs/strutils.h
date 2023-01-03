@@ -28,6 +28,8 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
+
 /* trim functions use strdup, original string is modified. */
 int trim( char *str );
 int trim_head( char *str );
@@ -112,6 +114,8 @@ char *tlsBitString(unsigned int n, char *t);
 char **getSipNames();
 char **getTcpNames();
 char **getTlsNames();
+
+bool endsWith(char *s1, char *s2);
 
 #ifdef __cplusplus
 } // closing brace for extern "C"
