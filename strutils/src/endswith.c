@@ -26,18 +26,20 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool endsWith(char *str1, char *str2) {
-    if (str1 == NULL || str2 == NULL)
+// Compare end of str to see if end exists.  Return true if it does.
+
+bool endsWith(char *str, char *end) {
+    if (str == NULL || end == NULL)
         return false;
 
-    int s1Len = strlen(str1);
-    int s2Len = strlen(str2);
+    int s1Len = strlen(str);
+    int s2Len = strlen(end);
 
     if (s2Len > s1Len)
         return false;
 
     for (int i = 0; i < s2Len; i++) {
-        if (str1[s1Len - i] != str2[s2Len - i])
+        if (str[s1Len - i] != end[s2Len - i])
             return false;
     }
 
